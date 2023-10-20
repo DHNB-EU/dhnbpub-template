@@ -1,5 +1,6 @@
-%% ceurart.cls
-%% Copyright 2019--2022 CEUR Workshop Proceedings (CEUR-WS.org)
+%% dhnbpub.cls
+%% Copyright 2023 Digital Humanities in the Nordic and Baltic Countries
+%% Based on ceurart.cls, copyright 2019--2022 CEUR Workshop Proceedings (CEUR-WS.org)
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3
@@ -15,11 +16,11 @@
 % The code was originally based on 'CAS Bundle' code.
 % 
 
-\def\RCSfile{ceurart}%
+\def\RCSfile{dhnbpub}%
 \def\RCSversion{0.4.12}%
 \def\RCSdate{2023/07/18}%
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{\RCSfile}[\RCSdate, \RCSversion: Typesetting articles for CEUR Workshop Proceedings (CEUR-WS.org)]
+\ProvidesClass{\RCSfile}[\RCSdate, \RCSversion: Typesetting articles for DHNB Publications (https://journals.uio.no/dhnbpub/)]
 
 \RequirePackage{expl3,xparse}
 \@ifundefined{regex_match:nnTF}{\RequirePackage{l3regex}}{}
@@ -38,8 +39,8 @@
 \newif\ifcasreviewlayout  \global\casreviewlayoutfalse
 \newif\ifcasfinallayout   \global\casfinallayoutfalse
 %% enable header and footer
-\bool_new:N \g_ceur_hf_bool
-\bool_gset_false:N \g_ceur_hf_bool
+%\bool_new:N \g_ceur_hf_bool
+%\bool_gset_false:N \g_ceur_hf_bool
 
 % \ifhf
 %   \bool_gset_true:N \g_ceur_hf_bool
@@ -58,7 +59,7 @@
 
 %\newif\if@twocolumn
 \DeclareOption{twocolumn}{\global\dctrue \global\scfalse}
-\DeclareOption{hf}{\bool_gset_true:N \g_ceur_hf_bool}
+%\DeclareOption{hf}{\bool_gset_true:N \g_ceur_hf_bool}
 % \DeclareOption{hf}{\global\hftrue}
 
 \DeclareOption{singleblind}{\setcounter{blind}{1}}
@@ -139,7 +140,7 @@
       \tex_par:D
     }
     
-    % \PackageWarning{ceurart}{Patching~\para_end:~implementation~to~fix~pdfx}
+    % \PackageWarning{dhnbpub}{Patching~\para_end:~implementation~to~fix~pdfx}
     
     \cs_set_eq:NN \par     \__old_para_end:
     % these two aren't actually required to fix pdfx, so we'll skip them...
@@ -148,7 +149,7 @@
     
     \AtBeginDocument{
       
-      % \PackageWarning{ceurart}{Restoring~old~\para_end:~implementation}
+      % \PackageWarning{dhnbpub}{Restoring~old~\para_end:~implementation}
       
       % restore additional definitions
       \cs_set_eq:NN \par     \para_end:
@@ -282,7 +283,7 @@
 \RenewDocumentCommand \maketitle {} {
   \nonumnote{\itshape \ceurConference@name}
   \logonote{\@copyrightLine}
-  \logonote{\@ceurLogoLine}
+  % \logonote{\@ceurLogoLine}
   % \ifbool { usecasgrabsbox }
   %   {
   %     \setcounter{page}{0}
@@ -368,28 +369,28 @@
     \xmpdatawrite{Title}{\detokenize\expandafter{\casprelimstitle}}
     \xmpdatawrite{Author}{\pdfxauthors}
     \xmpdatawrite{Keywords}{\pdfxkeywords}
-    \xmpdatawrite{Subject}{CEUR~Workshop~Proceedings~(CEUR-WS.org)}
+    \xmpdatawrite{Subject}{DHNB~Publications}
 
     \ifx\@copyrightclause\@empty\else
       \xmpdatawrite{Copyright}{\iow_char:N \\ copyright\ \@copyrightyear\ \@copyrightclause}
       \xmpdatawrite{CopyrightURL}{https://creativecommons.org/licenses/by/4.0}
     \fi
 
-    \xmpdatawrite{Journaltitle}{CEUR~Workshop~Proceedings}
-    \xmpdatawrite{Journalnumber}{1613-0073}
-    \bool_if:NTF \g_ceur_hf_bool {
-        \xmpdatawrite{Firstpage}{\firstpage}
-        \xmpdatawrite{Lastpage}{\lastpage}
-    }{ }
+    \xmpdatawrite{Journaltitle}{DHNB~Publications}
+    \xmpdatawrite{Journalnumber}{2704-1441}
+    % \bool_if:NTF \g_ceur_hf_bool {
+    %    \xmpdatawrite{Firstpage}{\firstpage}
+    %    \xmpdatawrite{Lastpage}{\lastpage}
+    %}{ }
   }{
     \hypersetup{%
-      pdfcreator={ceurart.cls},
+      pdfcreator={dhnbpub.cls},
       % pdfproducer={pdfTeX;},
       % pdftitle={\csuse{__short_title:}},
       % pdfauthor={\csuse{__short_authors:}},
       % pdfauthor={\csuse{__authors:}},
       % pdftitle={\@title},
-      pdfsubject={CEUR~Workshop~Proceedings~(CEUR-WS.org)},
+      pdfsubject={DHNB~Publications},
       pdfkeywords={\pdfxkeywords},
       linkcolor={hscolor},
       urlcolor={hscolor},
@@ -401,7 +402,7 @@
 }
 
 
-  % pdfcreator={ceurart.cls},
+  % pdfcreator={dhnbpub.cls},
   % % pdfproducer={pdfTeX;},
   % % pdftitle={\csuse{__short_title:}},
   % % pdfauthor={\csuse{__short_authors:}},
@@ -1864,7 +1865,7 @@
 }
 \let\@copyrightclause\@empty
 % \copyrightclause{\textcolor{red}{Author: Please provide a copyright holder}}
-
+\RequirePackage{calc}
 
 %% CC-BY logo width
 \newdimen\ccLogoWidth
@@ -1878,34 +1879,13 @@
     \href{https://creativecommons.org/licenses/by/4.0}%
     {\lower\baselineskip\hbox{\unhcopy\@tempboxa}}\enskip
   \end{minipage}
-  \nobreak\enskip
+  \nobreak\enskip%
   \begin{minipage}[c]{\linewidth - \ccLogoWidth - 2\footnotemargin}
-    \tiny
-    \textcopyright\ \@copyrightyear\ %
+    \tiny \textcopyright\ \@copyrightyear\ %
     \ifx\@copyrightclause\@empty%
       \textcolor{red}{Author: Please fill in the \string\copyrightclause\space macro}%
     \else\@copyrightclause%
     \fi
-  \end{minipage}
-}
-
-\RequirePackage{calc}
-
-\def\@ceurLogoLine{%
-  % set width of ceur-ws logo equals to width of cc-by logo
-  \setbox\@tempboxa\hbox{\includegraphics[height=\baselineskip,clip]{cc-by}}%
-  \ccLogoWidth=\dimexpr\wd\@tempboxa
-  \setbox\@tempboxa\hbox{\includegraphics[width=\ccLogoWidth,clip]{ceur-ws-logo}}
-  \@rightskip\@flushglue \rightskip\@rightskip
-  % \hangindent\dimexpr\wd\@tempboxa+0.5em\relax
-  \begin{minipage}[c]{\ccLogoWidth}
-    \href{https://ceur-ws.org}%
-    % {\lower\baselineskip\hbox{\unhcopy\@tempboxa}}\enskip
-    {\hbox{\unhcopy\@tempboxa}}
-  \end{minipage}
-  \nobreak\enskip
-  \begin{minipage}[c]{\linewidth - \ccLogoWidth - 2\footnotemargin}
-    {CEUR~Workshop~Proceedings~(\href{https://ceur-ws.org}{CEUR-WS.org})}%
   \end{minipage}
 }
 
@@ -2276,15 +2256,16 @@
 \setkomafont{pageheadfoot}{\sffamily\small}
 % \setkomafont{pagehead}{\sffamily\small}
 
-\bool_if:NTF \g_ceur_hf_bool {
+%\bool_if:NTF \g_ceur_hf_bool {
   \KOMAoptions{headsepline}
   % \ofoot[Page~ \thepage {} ~of~ \lastpage]{Page~ \thepage {} ~of~ \lastpage}
   % \ifoot[\__short_authors: :~ { \rmfamily \itshape CEUR~Workshop~Proceedings}]{\__short_authors: :~ { \rmfamily \itshape CEUR~Workshop~Proceedings}}
   % \ohead[]{\__short_title:}
   \cfoot[\thepage]{\thepage}
-  \ohead[]{\firstpage--\lastpage}
-  \ihead[]{\__short_authors:{} ~ { \rmfamily \itshape CEUR~Workshop~Proceedings}}
-}{ }
+  % \ohead[]{\firstpage--\lastpage}
+  \ihead[]{\__short_authors:{}}
+  \ohead[]{ \rmfamily \itshape DHNB~Publications}
+%}{ }
 
 % \newcommand{\hffont}{\sffamily\small}
 
@@ -2311,7 +2292,7 @@
   \group_begin:
   \small \sffamily
   \__short_authors: :~
-  { \rmfamily \itshape CEUR~Workshop~Proceedings }
+  { \rmfamily \itshape DHNB~Publications }
   \group_end:
 }
 
@@ -2896,10 +2877,11 @@
 %%
 
 % \RequirePackage[numbers,sort&compress]{natbib}
-\RequirePackage[numbers]{natbib}
-\AtBeginDocument{\bibsep=0pt}
+%\RequirePackage{natbib}
+\RequirePackage[authordate,dashed=false,backend=biber,natbib,footmarkoff]{biblatex-chicago}
+%\AtBeginDocument{\bibsep=0pt}
 
-\bibliographystyle{elsarticle-num-names}
+%\bibliographystyle{chicago}
 % \bibliographystyle{elsarticle-num}
 
 %%
@@ -2947,7 +2929,7 @@
 \endinput
 
 %
-% End of class 'ceurart'
+% End of class 'dhnbpub'
 %
 
 %%% Local Variables:
