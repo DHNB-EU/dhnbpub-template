@@ -281,9 +281,9 @@
 %
 
 \RenewDocumentCommand \maketitle {} {
-  \nonumnote{\itshape \ceurConference@name}
+  %\nonumnote{\itshape \ceurConference@name}
   \logonote{\@copyrightLine}
-  % \logonote{\@ceurLogoLine}
+  \logonote{\@dhnbLogoLine}
   % \ifbool { usecasgrabsbox }
   %   {
   %     \setcounter{page}{0}
@@ -1881,13 +1881,33 @@
   \end{minipage}
   \nobreak\enskip%
   \begin{minipage}[c]{\linewidth - \ccLogoWidth - 2\footnotemargin}
-    \tiny \textcopyright\ \@copyrightyear\ %
+    \tiny 
+    \textcopyright\ \@copyrightyear\ %
     \ifx\@copyrightclause\@empty%
       \textcolor{red}{Author: Please fill in the \string\copyrightclause\space macro}%
     \else\@copyrightclause%
     \fi
   \end{minipage}
 }
+
+\def\@dhnbLogoLine{%
+  % set width of ceur-ws logo equals to width of cc-by logo
+  \setbox\@tempboxa\hbox{\includegraphics[height=\baselineskip,clip]{cc-by}}%
+  \ccLogoWidth=\dimexpr\wd\@tempboxa
+  \setbox\@tempboxa\hbox{\includegraphics[width=\ccLogoWidth,clip]{DHNB-logo}}
+  \@rightskip\@flushglue \rightskip\@rightskip
+  % \hangindent\dimexpr\wd\@tempboxa+0.5em\relax
+  \begin{minipage}[c]{\ccLogoWidth}
+    \href{https://journals.uio.no/dhnbpub/}%
+    % {\lower\baselineskip\hbox{\unhcopy\@tempboxa}}\enskip
+    {\hbox{\unhcopy\@tempboxa}}
+  \end{minipage}
+  \nobreak\enskip
+  \begin{minipage}[c]{\linewidth - \ccLogoWidth - 2\footnotemargin}
+    {\href{https://journals.uio.no/dhnbpub/}{Publications}~--~\itshape \ceurConference@name}%
+  \end{minipage}
+}
+
 
 \seq_new:N \g_ceur_logonote_seq
 
