@@ -2260,11 +2260,11 @@
   \KOMAoptions{headsepline}
   % \ofoot[Page~ \thepage {} ~of~ \lastpage]{Page~ \thepage {} ~of~ \lastpage}
   % \ifoot[\__short_authors: :~ { \rmfamily \itshape CEUR~Workshop~Proceedings}]{\__short_authors: :~ { \rmfamily \itshape CEUR~Workshop~Proceedings}}
-  % \ohead[]{\__short_title:}
+  \ohead[]{\__short_title:}
   \cfoot[\thepage]{\thepage}
   % \ohead[]{\firstpage--\lastpage}
-  \ihead[]{\__short_authors:{}}
-  \ohead[]{ \rmfamily \itshape DHNB~Publications}
+  %\ihead[]{\__short_authors:{}} ~ {\__short_title:}
+  %\ohead[]{ \rmfamily \itshape DHNB~Publications}
 %}{ }
 
 % \newcommand{\hffont}{\sffamily\small}

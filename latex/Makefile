@@ -21,7 +21,7 @@ unminted:
 	@./minted2listings "*+minted.tex"
 
 clean:
-	-rm -f *.{log,toc,tac,aux,dvi,ps,bbl,blg,tmp,nav,out,snm,vrb,rel,cut,abs,xmpi,xmpdata,*~}
+	-rm -f *.{log,toc,tac,aux,dvi,ps,bbl,blg,tmp,nav,out,snm,vrb,rel,cut,abs,xmpi,xmpdata,bcf,run.xml,*~}
 	-rm -rf out _minted* auto
 	for i in $(ALLSUBDIRS); do \
 	    (cd $$i; make clean) || exit 1; \
