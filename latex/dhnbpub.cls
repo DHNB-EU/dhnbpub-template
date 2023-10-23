@@ -281,7 +281,7 @@
 %
 
 \RenewDocumentCommand \maketitle {} {
-  %\nonumnote{\itshape \ceurConference@name}
+  \nonumnote{\itshape \ceurConference@name}
   \logonote{\@copyrightLine}
   \logonote{\@dhnbLogoLine}
   % \ifbool { usecasgrabsbox }
@@ -1904,7 +1904,7 @@
   \end{minipage}
   \nobreak\enskip
   \begin{minipage}[c]{\linewidth - \ccLogoWidth - 2\footnotemargin}
-    {\href{https://journals.uio.no/dhnbpub/}{Publications}~--~\itshape \ceurConference@name}%
+    \href{https://journals.uio.no/dhnbpub/}{Digital~Humanities~in~the~Nordic~and~Baltic~Countries~Publications~--~ISSN:~2704-1441}%~--~\itshape \ceurConference@name%
   \end{minipage}
 }
 
