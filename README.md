@@ -1,4 +1,4 @@
-# [CEUR-WS.org](http://ceur-ws.org/) proceedings style
+# [DHNB Publications](https://journals.uio.no/dhnbpub) proceedings style
 
 ## Directories
 
@@ -18,11 +18,13 @@ User templates and guide.
 
 LaTeX class.
 
-## [Overleaf template](https://www.overleaf.com/latex/templates/template-for-submissions-to-ceur-workshop-proceedings-ceur-ws-dot-org/pkfscdkgkhcq)
+## [Overleaf template]()
 
-- Authors: Dmitry S. Kulyabov, Ilaria Tiddi, Manfred Jeusfeld
+- Template based on the [CEUR Workshop Proceedings LaTeX template](https://www.overleaf.com/latex/templates/template-for-submissions-to-ceur-workshop-proceedings-ceur-ws-dot-org/wqyfdgftmcfw)
+- Original template created by Dmitry S. Kulyabov, Ilaria Tiddi, Manfred Jeusfeld
+- DHNB Publications template adapted and edited by Eetu Mäkelä
 - License: Creative Commons Attribution (CC BY 4.0)
-- Abstract: CEUR-WS's article template provides a consistent LaTeX
-  style for use across CEUR-WS publications, and incorporates
+- Abstract: DHNB Publications' article template provides a consistent LaTeX
+  style for use across DHNB Publications, and incorporates
   accessibility and metadata-extraction functionality. This document
   will explain the major features of the document class.
