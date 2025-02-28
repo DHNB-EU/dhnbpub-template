@@ -1,7 +1,7 @@
 # [Digital Humanities in the Nordic and Baltic Countries Publications](https://journals.uio.no/dhnbpub/) article style
 
 - [Word template](https://github.com/jiemakel/dhnbpub/raw/main/docx/dhnbpub-template.docx)
-- [Latex template](latex/) (at Overleaf soon)
+- [Latex template](latex/) (at [Overleaf](https://www.overleaf.com/latex/templates/digital-humanities-in-the-nordic-and-baltic-countries-publications-template/nwkhrwkqbqbd))
 
 # License and author information
 
