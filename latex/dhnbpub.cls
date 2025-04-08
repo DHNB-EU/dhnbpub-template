@@ -164,7 +164,9 @@
   }{}
 
   % }}}
-
+  \ifxetex
+    \let\pdfcreationdate=\creationdate
+  \fi
   \RequirePackage[useBOM,pdf17,a-1a]{pdfx}
   \bool_gset_true:N \g_ceur_pdfx_bool
 }{%
