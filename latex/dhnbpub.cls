@@ -924,6 +924,7 @@
   \group_begin:
   \seq_gput_right:Nn \g_ceur_nonumnote_seq
   {
+    \NoHyper
     \tex_def:D \thefootnote { }
     \footnotetext{%
       % \raggedright
@@ -931,6 +932,7 @@
       % % \hspace*{-\labelsep}
       % \hspace*{-\footnotemargin}
       #1}
+    \endNoHyper
   }
   \group_end:
 }
