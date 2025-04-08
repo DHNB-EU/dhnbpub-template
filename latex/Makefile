@@ -4,13 +4,13 @@ PWD   = $(shell pwd)
 VERS  = $(shell ltxfileinfo -v $(NAME).dtx|sed -e 's/^v//')
 LOCAL = $(shell kpsewhich --var-value TEXMFLOCAL)
 UTREE = $(shell kpsewhich --var-value TEXMFHOME)
-LATEX = lualatex
+LATEX = pdflatex
 LATEX_FLAGS = -shell-escape
 BIBTEX = biber
 
 FILES = $(patsubst %.tex, %.pdf, $(wildcard *.tex))
 
-%.pdf: %.tex
+%.pdf: %.tex %.bib
 	$(LATEX) $(LATEX_FLAGS) $<
 	# $(LATEX) $(LATEX_FLAGS) $<
 	-$(BIBTEX) `basename $< .tex`

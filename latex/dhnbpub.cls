@@ -1872,7 +1872,7 @@
 
 %% CC-BY logo
 \RequirePackage{csquotes}
-\RequirePackage[type={CC},modifier={by},version={4.0},imageposition=left]{doclicense}
+\RequirePackage[type={CC},modifier={by},version={4.0},imageposition=left,hyperxmp=false]{doclicense}
 
 %% CC-BY logo width
 \newdimen\ccLogoWidth
@@ -1968,7 +1968,13 @@
   \int_compare:nTF { \g_ceur_jtype_int > 5 } {
     \ceuraddress
   } { }
+  \ifx\NoHyper\@undefined\else
+  \begin{NoHyper}
+  \fi
   \printnonumnotes
+  \ifx\NoHyper\@undefined\else
+  \end{NoHyper}
+  \fi
   \printtnotes
   \bool_if:NTF \g_ceur_blind_bool {
   } {
