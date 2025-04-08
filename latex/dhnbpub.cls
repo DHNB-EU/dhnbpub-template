@@ -1917,8 +1917,8 @@
 
 \def\@dhnbLogoLine{%
   % set width of ceur-ws logo equals to width of cc-by logo
-  \setbox\@tempboxa\hbox{\doclicenseImage[imagewidth=\ccLogoWidth]}%
-  \ccLogoWidth=\dimexpr\wd\@tempboxa
+  %\setbox\@tempboxa\hbox{\doclicenseImage[imagewidth=\ccLogoWidth]}%
+  %\ccLogoWidth=\dimexpr\wd\@tempboxa
   \setbox\@tempboxa\hbox{\includegraphics[width=\ccLogoWidth,clip]{DHNB-logo}}
   \@rightskip\@flushglue \rightskip\@rightskip
   % \hangindent\dimexpr\wd\@tempboxa+0.5em\relax
