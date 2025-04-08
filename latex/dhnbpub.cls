@@ -1,6 +1,6 @@
 %% dhnbpub.cls
-%% Copyright 2023 Digital Humanities in the Nordic and Baltic Countries
-%% Based on ceurart.cls, copyright 2019--2022 CEUR Workshop Proceedings (CEUR-WS.org)
+%% Copyright 2023--2025 Digital Humanities in the Nordic and Baltic Countries
+%% Based on ceurart.cls, copyright 2019--2024 CEUR Workshop Proceedings (CEUR-WS.org)
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3
@@ -14,15 +14,19 @@
 %
 % The Current Maintainer of this work is Dmitry S. Kulyabov.
 % The code was originally based on 'CAS Bundle' code.
-% 
+%
 
 \def\RCSfile{dhnbpub}%
-\def\RCSversion{0.4.12}%
-\def\RCSdate{2023/07/18}%
-\NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{\RCSfile}[\RCSdate, \RCSversion: Typesetting articles for DHNB Publications (https://journals.uio.no/dhnbpub/)]
+\def\RCSversion{0.6.0}%
+\def\RCSdate{2024-12-21}%
+\RequirePackage{expl3}
+\ProvidesExplClass
+{\RCSfile} % Package name
+{\RCSdate} % Release date
+{\RCSversion} % Release version
+{Typesetting articles for DHNB Publications (https://journals.uio.no/dhnbpub/)}
 
-\RequirePackage{expl3,xparse}
+\RequirePackage{xparse}
 \@ifundefined{regex_match:nnTF}{\RequirePackage{l3regex}}{}
 
 \ExplSyntaxOn
@@ -105,10 +109,10 @@
 \file_if_exist:nTF { pdfx.sty } {%
 
   % {{{ Temporary fix for error using pdfx on Tex Live 2021
-  
+
   % pdfx v1.6.3 from 2019-02-27 is bad, so anything later is hopefully fixed...
 
-  % \IfFormatAtLeastTF do not exist in LaTeX versions older than 2020-10-01. 
+  % \IfFormatAtLeastTF do not exist in LaTeX versions older than 2020-10-01.
   \providecommand\IfFormatAtLeastTF{\@ifl@t@r\fmtversion}
   % Problem with issue https://github.com/latex3/latex2e/issues/605
   % We do not need fix with older version of LaTeX
@@ -117,7 +121,7 @@
     % temporarily reverts https://github.com/latex3/latex2e/commit/5fb2860f2fedc87b213730f06ec1d77bcab4814a
     % resp. https://github.com/latex3/latex2e/commit/dd2ec509ec98e9c359a41e35aea6aade86485ca2
     % as it breaks pdfx (see https://tex.stackexchange.com/questions/605854/error-using-pdfx-on-tex-live-2021)
-    
+
     % this is the old implementation from base/ltpara.dtx, version 1.0g
     \cs_new_protected:Npn \__old_para_end: {
       % ltpara v1.0h as well as firstaid/latex2e-first-aid-for-external-files.dtx v1.0o inserted
@@ -146,11 +150,11 @@
     % these two aren't actually required to fix pdfx, so we'll skip them...
     % \cs_set_eq:NN \@@par   \__old_para_end:
     % \cs_set_eq:NN \endgraf \__old_para_end:
-    
+
     \AtBeginDocument{
-      
+
       % \PackageWarning{dhnbpub}{Restoring~old~\para_end:~implementation}
-      
+
       % restore additional definitions
       \cs_set_eq:NN \par     \para_end:
       % see above: as we didn't replace them, no need to restore them.
@@ -160,7 +164,7 @@
   }{}
 
   % }}}
-  
+
   \RequirePackage[useBOM,pdf17,a-1a]{pdfx}
   \bool_gset_true:N \g_ceur_pdfx_bool
 }{%
@@ -314,17 +318,17 @@
     \printFirstPageNotes
   }
   \normalcolor \normalfont
-  \setcounter{footnote}{\int_use:N \g_ceur_fnote_int}  
+  \setcounter{footnote}{\int_use:N \g_ceur_fnote_int}
   \renewcommand\thefootnote{\arabic{footnote}}
   \gdef\@pdfauthor{\infoauthors}
   % \gdef\@pdfsubject{Complex ~CEUR ~Content}
 
   %% PDF/A
-  
+
   % List of supported metadata fields
-  
+
   % General information:
-  
+
   % \Author           - the document's human author. Separate multiple authors with \sep.
   % \Title            - the document's title.
   % \Keywords         - list of keywords, separated with \sep.
@@ -338,7 +342,7 @@
   % \Copyrighted      - 'True' if the document is copyrighted, and
   % 'False' if it isn't. This is automatically set to 'True' if either
   % \Copyright or \CopyrightURL is specified, but can be overridden.
-  
+
   % Publication information:
 
   % \PublicationType   - The type of publication. If defined, must be
@@ -363,13 +367,13 @@
   % \CoverDate         - Date on the cover of the journal issue, in a
   % format suitable for storing in a database field
   % with a 'date' data type.
-  
+
   \bool_if:NTF \g_ceur_pdfx_bool
   {
     \xmpdatawrite{Title}{\detokenize\expandafter{\casprelimstitle}}
     \xmpdatawrite{Author}{\pdfxauthors}
     \xmpdatawrite{Keywords}{\pdfxkeywords}
-    \xmpdatawrite{Subject}{DHNB~Publications}
+    \xmpdatawrite{Subject}{Layout~by~DHNBPub~v\RCSversion}
 
     \ifx\@copyrightclause\@empty\else
       \xmpdatawrite{Copyright}{\iow_char:N \\ copyright\ \@copyrightyear\ \@copyrightclause}
@@ -390,14 +394,14 @@
       % pdfauthor={\csuse{__short_authors:}},
       % pdfauthor={\csuse{__authors:}},
       % pdftitle={\@title},
-      pdfsubject={DHNB~Publications},
+      pdfsubject={Layout~by~DHNBPub~v\RCSversion},
       pdfkeywords={\pdfxkeywords},
       linkcolor={hscolor},
       urlcolor={hscolor},
       citecolor={hscolor},
       filecolor={hscolor},
       menucolor={hscolor},
-    }    
+    }
   }
 }
 
@@ -408,7 +412,7 @@
   % % pdfauthor={\csuse{__short_authors:}},
   % % pdfauthor={\csuse{__authors:}},
   % % pdftitle={\@title},
-  % pdfsubject={CEUR Workshop Proceedings (CEUR-WS.org)},
+  % pdfsubject={Layout by CEURART},
 
 
 %
@@ -1024,7 +1028,7 @@
     }
     \tex_def:D \sep{\unskip,}
   }
-  %% 
+  %%
   \cs_if_free:cTF { mark@fnau\theauthor }
   { \ignorespaces }
   { \str_set:Nx \l_tmpa_str { \use:c{ mark@fnau\theauthor } }
@@ -1213,7 +1217,8 @@
      \seq_gput_right:Nn \g_ceur_linkedin_seq
        {
          \parsename { #2 }
-         \url{https://www.linkedin.com/profile/view?id=\tl_to_str:n{#1}}%
+         % \url{https://www.linkedin.com/profile/view?id=\tl_to_str:n{#1}}%
+         \url{https://www.linkedin.com/in/\tl_to_str:n{#1}}%
          \space(\eadauthor)
        }
      }
@@ -1295,10 +1300,10 @@
   \ResetMarks
   \tl_if_blank:nTF { #3 } { }
   { \keys_set:nn { ceur / author } { #3 } }
-  % 
+  %
   \int_gincr:N \g_ceur_au_int
   \tex_gdef:D \theau@ { \int_use:N \g_ceur_au_int }
-  % 
+  %
   \seq_gput_right:Nn \g_ceur_prelimsau_seq { #2 }
   \bool_if:NTF \l_ceur_au_collab_bool
   { \seq_gput_right:cn { g_ceur_clau\int_use:N \g_ceur_augr_int _seq } }
@@ -1343,10 +1348,10 @@
     { ,\c_space_token \l_ceur_au_degree_tl }
     \tl_if_empty:NF \l_ceur_au_role_tl
     { \c_space_token (\l_ceur_au_role_tl) }
-    % 
+    %
     \ResetMarks
   }
-  % 
+  %
   \bool_if:NT \l_ceur_au_deceased_bool
   {
     \seq_gput_right:Nn \g_ceur_maltese_seq
@@ -1394,7 +1399,7 @@
   \csgdef { __short_authors_tmp } { #2 }
   \int_compare:nNnTF { \theau@ } = { 1 } {
     \xappto \__short_authors: { \__short_authors_tmp }
-  }{ 
+  }{
     \int_compare:nNnTF { \theau@ } < { \g_num_short_authors + 1 } {
       \xappto \__short_authors: { , ~ \__short_authors_tmp }
     }{
@@ -1403,7 +1408,7 @@
       }{ }
     }
   }
-  % 
+  %
   \@eadauthor={#2}
   \pdfstringdef\__info_au: { #2 }
   \int_compare:nNnTF { \theau@ } < { 4 }
@@ -1722,14 +1727,14 @@
 \tl_new:N \l_ceur_abs_title_tl
 \box_new:N \g_ceur_abs_box
 
-\tex_gdef:D \abstractname { \textbf{\sffamily Abstract} }
+\tex_gdef:D \abstractname { Abstract }
 
 \NewDocumentEnvironment { Abstract } { o } {
   % \global\setbox \g_ceur_abs_box = \vtop \bgroup
   % \hsize = .65 \textwidth \parindent \z@
   \group_begin:
   % Check if abstract exist
-  \file_if_exist:nT { \jobname.abs } { 
+  \file_if_exist:nT { \jobname.abs } {
     \IfNoValueTF { #1 } {
     } { \tex_gdef:D \abstractname { #1 } }
     \parindent \z@
@@ -1746,7 +1751,7 @@
     % }
     \skip_vertical:n { \baselineskip }
     % \noindent \abstractname \par
-    \noindent { \textbf{\sffamily Abstract} } \par
+    \noindent { \textbf{\sffamily \abstractname} } \par
     % \skip_vertical:n { -4pt}
     % \noindent \rule{.65\textwidth}{.2pt}\par
     \footnotesize
@@ -1830,7 +1835,7 @@
 \NewDocumentEnvironment { keywords } { +b } {
   %% Keywords list for PDF/A
   \csgdef { pdfxkeywords } { \detokenize\expandafter{ #1 } }
-  %% replace \sep by commas 
+  %% replace \sep by commas
   \tex_global:D \tex_setbox:D \g_ceur_key_box = \vtop \bgroup
   \hsize=.9 \textwidth
   \vspace*{0pt}
@@ -1845,17 +1850,17 @@
   \egroup
 } { }
 
-%% Acknowledgments
+% %% Acknowledgments
 
-\NewDocumentEnvironment { acknowledgments } { }
-{
-  \group_begin:
-  \section*{Acknowledgments}
-}
-{ \group_end: }
+% \NewDocumentEnvironment { acknowledgments } { }
+% {
+%   \group_begin:
+%   \section*{Acknowledgments}
+% }
+% { \group_end: }
 
 
-%% Copyright
+%%% Copyright
 
 \def\copyrightyear#1{\def\@copyrightyear{#1}}
 \copyrightyear{\the\year}
@@ -1864,35 +1869,55 @@
   \def\@copyrightclause{#1}%
 }
 \let\@copyrightclause\@empty
-% \copyrightclause{\textcolor{red}{Author: Please provide a copyright holder}}
-\RequirePackage{calc}
+
+%% CC-BY logo
+\RequirePackage{csquotes}
+\RequirePackage[type={CC},modifier={by},version={4.0},imageposition=left]{doclicense}
 
 %% CC-BY logo width
 \newdimen\ccLogoWidth
+\ccLogoWidth=3.5em
 
 \def\@copyrightLine{%
-  \setbox\@tempboxa\hbox{\includegraphics[height=\baselineskip,clip]{cc-by}}%
-  \ccLogoWidth=\dimexpr\wd\@tempboxa
-  \@rightskip\@flushglue \rightskip\@rightskip
-  % \hangindent\dimexpr\wd\@tempboxa+0.5em\relax
+  % \setbox\@tempboxa\hbox{\includegraphics[height=\baselineskip,clip]{cc-by}}%
+  % \ccLogoWidth=\dimexpr\wd\@tempboxa
+  % \@rightskip\@flushglue \rightskip\@rightskip
+  % % \hangindent\dimexpr\wd\@tempboxa+0.5em\relax
+  % \begin{minipage}[c]{\ccLogoWidth}
+  %   \href{https://creativecommons.org/licenses/by/4.0}%
+  %   {\lower\baselineskip\hbox{\unhcopy\@tempboxa}}\enskip
+  % \end{minipage}
+  % \nobreak\enskip
+  % \begin{minipage}[c]{\linewidth - \ccLogoWidth - 2\footnotemargin}
+  %   \tiny
+  %   \textcopyright\ \@copyrightyear\ %
+  %   \ifx\@copyrightclause\@empty%
+  %     \textcolor{red}{Author: Please fill in the \string\copyrightclause\space macro}%
+  %   \else\@copyrightclause%
+  %   \fi
+  % \end{minipage}
+  % \\
   \begin{minipage}[c]{\ccLogoWidth}
-    \href{https://creativecommons.org/licenses/by/4.0}%
-    {\lower\baselineskip\hbox{\unhcopy\@tempboxa}}\enskip
+    \doclicenseImage[imagewidth=\ccLogoWidth]
   \end{minipage}
   \nobreak\enskip%
   \begin{minipage}[c]{\linewidth - \ccLogoWidth - 2\footnotemargin}
     \tiny 
     \textcopyright\ \@copyrightyear\ %
     \ifx\@copyrightclause\@empty%
-      \textcolor{red}{Author: Please fill in the \string\copyrightclause\space macro}%
+      \doclicenseText
+      % \textcolor{red}{Author: Please fill in the \string\copyrightclause\space macro}%
     \else\@copyrightclause%
     \fi
   \end{minipage}
+
 }
+
+\RequirePackage{calc}
 
 \def\@dhnbLogoLine{%
   % set width of ceur-ws logo equals to width of cc-by logo
-  \setbox\@tempboxa\hbox{\includegraphics[height=\baselineskip,clip]{cc-by}}%
+  \setbox\@tempboxa\hbox{\doclicenseImage[imagewidth=\ccLogoWidth]}%
   \ccLogoWidth=\dimexpr\wd\@tempboxa
   \setbox\@tempboxa\hbox{\includegraphics[width=\ccLogoWidth,clip]{DHNB-logo}}
   \@rightskip\@flushglue \rightskip\@rightskip
@@ -2091,7 +2116,7 @@
   \group_begin:
   \@title
   \group_end:
-  % 
+  %
   \bool_if:NTF \g_ceur_blind_bool {
     \vspace* { 10 mm }
   } {
@@ -2297,7 +2322,7 @@
 %   \renewcommand{\footrulewidth}{\z@}%
 %   \fancyfoot[R]{\hffont Page~ \thepage {} ~of~ \lastpage}%
 %   \fancyfoot[L]{\hffont \__short_authors: :~ { \rmfamily \itshape CEUR~Workshop~Proceedings}}%
-% }  
+% }
 
 % \fancypagestyle{standard}{%
 %   \fancyhf{}%
@@ -2306,7 +2331,7 @@
 %   \fancyfoot[R]{\hffont Page~ \thepage {} ~of~ \lastpage}%
 %   \fancyfoot[L]{\hffont \__short_authors: :~ { \rmfamily \itshape CEUR~Workshop~Proceedings}}%
 %   \fancyhead[L]{\hffont \__short_title:}%
-% }  
+% }
 
 \cs_new:Npn \__first_footerline: {
   \group_begin:
@@ -2593,12 +2618,12 @@
   \dim_add:Nn \l_tmpa_dim { \box_dp:N \g_tmpa_box }
   \fp_set:Nn  \l_tmpa_fp  { \dim_to_fp:n { \l_tmpa_dim } }
   \fp_set:Nn  \l_tmpb_fp  { \dim_to_fp:n { \baselineskip } }
-  % 
+  %
   \fp_set:Nn \l_wrap_figlines_fp
   { \fp_eval:n { ( \l_tmpa_fp / \l_tmpb_fp )  + .5 } }
   \int_set:Nn \l_wrap_figlines_int
   { \fp_to_int:N \l_wrap_figlines_fp }
-  % 
+  %
   \iow_term:x { ...~wr-fig:~[BL:~\the\baselineskip] ~ ...}
   \iow_term:x { ...~wr-fig:~[LINE-FP:~ \fp_use:N \l_wrap_figlines_fp]~ ...}
   \iow_term:x { ...~wr-fig:~[LINE-INT:~ \int_use:N \l_wrap_figlines_int]~ ...}
@@ -2945,6 +2970,96 @@
 \DeclareOldFontCommand{\it}{\normalfont\itshape}{\mathit}
 \DeclareOldFontCommand{\sl}{\normalfont\slshape}{\@nomath\sl}
 \DeclareOldFontCommand{\sc}{\normalfont\scshape}{\@nomath\sc}
+
+%%% Supplementary
+
+\ProvideDocumentCommand \DivFontShape {} { \sffamily \bfseries }
+
+%% Author Contributions
+
+\def\authorcontributionsname{Author~Contributions}
+
+\ProvideDocumentEnvironment { authorcontributions } { +b } {%
+  \smallskip
+  \noindent
+  {\footnotesize{\DivFontShape{\authorcontributionsname}:~} { #1 }}
+} {}
+
+%% Funding
+
+\def\fundingname{Funding}
+
+\ProvideDocumentEnvironment { funding } { +b } {%
+  \smallskip
+  \noindent
+  {\footnotesize{\DivFontShape{\fundingname}:~} { #1 }}
+} {}
+
+%% Data Availability Statement
+
+\def\dataavailabilityname{Data~Availability~Statement}
+
+\ProvideDocumentEnvironment { dataavailability } { +b } {%
+  \smallskip
+  \noindent
+  {\footnotesize{\DivFontShape{\dataavailabilityname}:~} { #1 }}
+} {}
+
+%% Conflicts of Interest
+
+\def\conflictsofinterestname{Conflicts~of~Interest}
+
+\ProvideDocumentEnvironment { conflictsofinterest } { +b } {%
+  \smallskip
+  \noindent
+  {\footnotesize{\DivFontShape{\conflictsofinterestname}:~} { #1 }}
+} {}
+
+%% Acknowledgments
+
+\def\acknowledgmentsname{Acknowledgments}
+
+\ProvideDocumentEnvironment { acknowledgments } { +b } {%
+  \smallskip
+  \noindent
+  {\footnotesize{\DivFontShape{\acknowledgmentsname}:~} { #1 }}
+} {}
+
+%% Acknowledgments
+
+\def\acknowledgmentsname{Acknowledgments}
+
+\ProvideDocumentEnvironment { acknowledgments } { +b } {%
+  \smallskip
+  \noindent
+  {\footnotesize{\DivFontShape{\acknowledgmentsname}:~} { #1 }}
+} {}
+
+%% Declaration on Generative AI
+
+\def\aideclarationname{Declaration~on~Generative~AI}
+
+\ProvideDocumentEnvironment { aideclaration } { +b } {%
+  \smallskip
+  \noindent
+  {\footnotesize{\DivFontShape{\aideclarationname}:~} { #1 }}
+} {}
+
+%%
+%% Page geometry
+%%
+
+\RequirePackage{geometry}
+\geometry{a4paper}
+\geometry{%
+  twoside=false,
+  vmargin=1cm,
+  hmargin=1in,
+  centering,
+  columnsep=2pc,
+  heightrounded,
+  includeheadfoot,
+}
 
 \endinput
 

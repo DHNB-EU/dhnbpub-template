@@ -180,3 +180,5 @@ tramp
 # cask packages
 .cask/
 
+# other
+.history/
